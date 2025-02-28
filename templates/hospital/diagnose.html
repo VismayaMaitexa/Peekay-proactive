@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle Disease Predictor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h2>Lifestyle Disease Predictor</h2>
+    
+    <form id="diagnosisForm">
+        {% csrf_token %}
+
+        <label for="symptom1">Symptom 1:</label>
+        <select id="symptom1" name="Symptom_1">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom2">Symptom 2:</label>
+        <select id="symptom2" name="Symptom_2">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom3">Symptom 3:</label>
+        <select id="symptom3" name="Symptom_3">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom4">Symptom 4:</label>
+        <select id="symptom4" name="Symptom_4">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom5">Symptom 5:</label>
+        <select id="symptom5" name="Symptom_5">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom6">Symptom 6:</label>
+        <select id="symptom6" name="Symptom_6">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom7">Symptom 7:</label>
+        <select id="symptom7" name="Symptom_7">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom8">Symptom 8:</label>
+        <select id="symptom8" name="Symptom_8">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom9">Symptom 9:</label>
+        <select id="symptom9" name="Symptom_9">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom10">Symptom 10:</label>
+        <select id="symptom10" name="Symptom_10">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom11">Symptom 11:</label>
+        <select id="symptom11" name="Symptom_11">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="symptom12">Symptom 12:</label>
+        <select id="symptom12" name="Symptom_12">
+            <option value="no_symptoms">No Symptoms</option>
+            {% for symptom in symptoms %}
+                <option value="{{ symptom }}">{{ symptom }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="button" id="predictBtn">Predict Disease</button>
+    </form>
+
+    <h3>Prediction Result:</h3>
+    <p id="result"></p>
+
+    <script>
+        $(document).ready(function() {
+            $("#predictBtn").click(function() {
+                let csrfToken = $("input[name='csrfmiddlewaretoken']").val(); // Get CSRF token
+
+                $.ajax({
+                    type: "POST",
+                    url: "/predict/",
+                    data: $("#diagnosisForm").serialize(),
+                    dataType: "json",
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrfToken); // Include CSRF token in headers
+                    },
+                    success: function(response) {
+                        if (response.error) {
+                            $("#result").html("<b>Error:</b> " + response.error);
+                        } else {
+                            $("#result").html("<b>Disease Predicted:</b> " + response.prediction + "<br> Precautions: " + response.precautions.join(", "));
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText); // Log the full error message
+                        $("#result").html("<b>An error occurred. Please try again.</b>");
+                    }
+                });
+            });
+        });
+    </script>
+
+    
+
+</body>
+</html>
